@@ -2,80 +2,431 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ShopHub - Discover useful digital products, ebooks, planners and templates.">
-<title>ShopHub | Digital Products Store</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f8f9fc;color:#182033}
-header{background:#fff;padding:20px 7%;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px #ddd}
-.logo{font-size:27px;font-weight:bold;color:#252b48}
-.logo span{color:#7157e8}
-nav a{margin-left:20px;text-decoration:none;color:#333}
-.hero{text-align:center;padding:90px 20px;background:linear-gradient(135deg,#e9e5ff,#f9f7ff)}
-.hero h1{font-size:48px;margin:10px}
-.hero p{font-size:18px;color:#596174}
-.btn{display:inline-block;background:#7157e8;color:white;padding:14px 28px;border-radius:9px;text-decoration:none;margin-top:15px}
-section{padding:55px 7%}
-h2{text-align:center;font-size:30px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{background:white;padding:25px;border-radius:15px;text-align:center;box-shadow:0 4px 15px #0000000b}
-.card .emoji{font-size:42px}
-.card p{color:#697386}
-.products .card{border:1px solid #eee}
-footer{text-align:center;background:#182033;color:white;padding:30px}
-@media(max-width:650px){
-.hero h1{font-size:34px}
-.grid{grid-template-columns:1fr}
-nav a{margin-left:8px;font-size:13px}
-header{padding:16px 5%}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <title>ShopHub — Digital Products for Everyone</title>
+  <meta name="description" content="Discover digital products, creative templates, ebooks and tools at ShopHub.">
+  <style>
+    :root {
+      --bg: #f7f8fc;
+      --dark: #101827;
+      --muted: #64748b;
+      --purple: #7357f5;
+      --purple-light: #eeeaff;
+      --white: #fff;
+      --border: #e8eaf1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    .container { width: min(1120px, 90%); margin: auto; }
+    header {
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .logo { font-size: 25px; font-weight: 850; letter-spacing: -1px; }
+    .logo span { color: var(--purple); }
+    .nav-links { display: flex; gap: 28px; color: #475569; font-size: 14px; }
+    .nav-links a:hover { color: var(--purple); }
+    .nav-button, .primary {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 19px;
+      background: var(--purple);
+      color: white;
+      font-weight: 700;
+    }
+    .hero { padding: 82px 0 72px; }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 50px;
+    }
+    .eyebrow {
+      display: inline-block;
+      background: var(--purple-light);
+      color: var(--purple);
+      border-radius: 30px;
+      padding: 7px 13px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: clamp(40px, 6vw, 65px);
+      line-height: 1.08;
+      letter-spacing: -2.5px;
+      margin-bottom: 22px;
+    }
+    h1 span { color: var(--purple); }
+    .hero p { color: var(--muted); font-size: 17px; max-width: 540px; margin-bottom: 28px; }
+    .hero-art {
+      min-height: 330px;
+      border-radius: 30px;
+      background: linear-gradient(140deg, #775af5, #a48cfb 55%, #d8d0ff);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-art:before, .hero-art:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,.15);
+    }
+    .hero-art:before { width: 260px; height: 260px; top: -90px; right: -40px; }
+    .hero-art:after { width: 180px; height: 180px; bottom: -70px; left: -35px; }
+    .art-card {
+      position: relative;
+      z-index: 1;
+      background: white;
+      border-radius: 22px;
+      padding: 28px;
+      width: 72%;
+      box-shadow: 0 25px 60px #34218a55;
+      transform: rotate(-5deg);
+    }
+    .art-icon { font-size: 48px; margin-bottom: 12px; }
+    .art-card h3 { font-size: 22px; }
+    .art-card p { color: var(--muted); font-size: 13px; margin: 5px 0 0; }
+    .section { padding: 60px 0; }
+    .section-heading { text-align: center; margin-bottom: 34px; }
+    .section-heading h2 { font-size: 32px; letter-spacing: -1px; }
+    .section-heading p { color: var(--muted); margin-top: 8px; }
+    .categories, .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .category, .product {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      padding: 25px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .category:hover, .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px #1b254010;
+    }
+    .category-icon { font-size: 34px; margin-bottom: 12px; }
+    .category h3, .product h3 { margin-bottom: 6px; }
+    .category p, .product p { color: var(--muted); font-size: 14px; }
+    .product-visual {
+      height: 145px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 48px;
+      margin-bottom: 18px;
+      background: #f0edff;
+    }
+    .product:nth-child(2) .product-visual { background: #e7f8f2; }
+    .product:nth-child(3) .product-visual { background: #fff2e5; }
+    .coming {
+      display: inline-block;
+      margin-top: 14px;
+      color: var(--purple);
+      background: var(--purple-light);
+      border-radius: 20px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .about {
+      background: var(--dark);
+      color: white;
+      border-radius: 25px;
+      padding: 48px;
+      text-align: center;
+    }
+    .about p { color: #c3cada; max-width: 650px; margin: 12px auto 0; }
+    footer { padding: 30px 0; color: var(--muted); font-size: 13px; text-align: center; }
+    .chat-toggle {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 30;
+      width: 60px;
+      height: 60px;
+      border: 0;
+      border-radius: 50%;
+      color: white;
+      background: var(--purple);
+      font-size: 25px;
+      box-shadow: 0 8px 25px #7357f555;
+    }
+    .chat-panel {
+      display: none;
+      position: fixed;
+      right: 22px;
+      bottom: 95px;
+      z-index: 30;
+      width: min(370px, calc(100% - 32px));
+      height: 470px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px #10182725;
+      overflow: hidden;
+    }
+    .chat-panel.open { display: flex; flex-direction: column; }
+    .chat-header {
+      background: var(--dark);
+      color: white;
+      padding: 17px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chat-header small { color: #c4cbd8; display: block; }
+    .chat-close { background: none; border: 0; color: white; font-size: 22px; }
+    .chat-messages {
+      padding: 16px;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .message {
+      max-width: 88%;
+      padding: 11px 13px;
+      border-radius: 14px;
+      font-size: 14px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .bot { background: #f0efff; align-self: flex-start; }
+    .user { background: var(--purple); color: white; align-self: flex-end; }
+    .chat-form {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .chat-form input {
+      min-width: 0;
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px;
+      outline: none;
+    }
+    .chat-form button {
+      border: 0;
+      border-radius: 10px;
+      background: var(--purple);
+      color: white;
+      padding: 0 15px;
+      font-weight: 700;
+    }
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .hero { padding: 55px 0; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-art { min-height: 260px; }
+      .categories, .products { grid-template-columns: 1fr; }
+      .about { padding: 35px 22px; }
+    }
+  </style>
 </head>
 <body>
-<header>
-<div class="logo">Shop<span>Hub</span></div>
-<nav>
-<a href="#categories">Categories</a>
-<a href="#products">Products</a>
-<a href="#about">About</a>
-</nav>
-</header>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#">Shop<span>Hub</span></a>
+      <nav class="nav-links">
+        <a href="#categories">Categories</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+      </nav>
+      <a class="nav-button" href="#products">Explore Shop</a>
+    </div>
+  </header>
 
-<div class="hero">
-<h1>Discover Your Next Favorite Digital Product</h1>
-<p>Ebooks, planners, templates and useful digital resources in one place.</p>
-<a class="btn" href="#products">Explore Products</a>
-</div>
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <span class="eyebrow">YOUR DIGITAL WORLD STARTS HERE</span>
+          <h1>Discover digital products <span>made for you.</span></h1>
+          <p>Explore ebooks, useful templates, planners and digital tools designed to inspire your next idea.</p>
+          <a class="primary" href="#categories">Explore categories</a>
+        </div>
+        <div class="hero-art">
+          <div class="art-card">
+            <div class="art-icon">✨</div>
+            <h3>Ideas. Tools. Possibilities.</h3>
+            <p>Everything digital, in one place.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section id="categories">
-<h2>Shop by Category</h2>
-<div class="grid">
-<div class="card"><div class="emoji">📚</div><h3>Ebooks & Guides</h3><p>Learn something new with practical digital guides.</p></div>
-<div class="card"><div class="emoji">📅</div><h3>Planners</h3><p>Organize your goals and everyday life.</p></div>
-<div class="card"><div class="emoji">🎨</div><h3>Templates</h3><p>Creative resources ready to customize.</p></div>
-</div>
-</section>
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Explore Categories</h2>
+          <p>Find the digital resources you need.</p>
+        </div>
+        <div class="categories">
+          <article class="category">
+            <div class="category-icon">📚</div>
+            <h3>Ebooks & Guides</h3>
+            <p>Knowledge and inspiration for every day.</p>
+          </article>
+          <article class="category">
+            <div class="category-icon">📅</div>
+            <h3>Planners</h3>
+            <p>Organize your goals and make progress.</p>
+          </article>
+          <article class="category">
+            <div class="category-icon">🎨</div>
+            <h3>Templates</h3>
+            <p>Creative resources to make work easier.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-<section class="products" id="products">
-<h2>Featured Products</h2>
-<div class="grid">
-<div class="card"><div class="emoji">📖</div><h3>Digital Ebooks</h3><p>Discover useful knowledge and inspiration.</p><strong>Coming Soon</strong></div>
-<div class="card"><div class="emoji">📝</div><h3>Daily Planners</h3><p>Make your days more organized.</p><strong>Coming Soon</strong></div>
-<div class="card"><div class="emoji">💡</div><h3>Creative Templates</h3><p>Simple tools for your next project.</p><strong>Coming Soon</strong></div>
-</div>
-</section>
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Featured Products</h2>
+          <p>Our digital collection is coming soon.</p>
+        </div>
+        <div class="products">
+          <article class="product">
+            <div class="product-visual">📖</div>
+            <h3>Digital Ebooks</h3>
+            <p>Practical guides and learning resources.</p>
+            <span class="coming">COMING SOON</span>
+          </article>
+          <article class="product">
+            <div class="product-visual">🗓️</div>
+            <h3>Smart Planners</h3>
+            <p>Simple tools for planning your day.</p>
+            <span class="coming">COMING SOON</span>
+          </article>
+          <article class="product">
+            <div class="product-visual">🧩</div>
+            <h3>Creative Templates</h3>
+            <p>Ready-to-use designs for your projects.</p>
+            <span class="coming">COMING SOON</span>
+          </article>
+        </div>
+      </div>
+    </section>
 
-<section id="about">
-<h2>About ShopHub</h2>
-<p style="text-align:center;max-width:650px;margin:auto;color:#697386">ShopHub brings together useful digital products to help you learn, plan, create and grow. Explore our collection and discover resources made for everyday life.</p>
-</section>
+    <section class="section" id="about">
+      <div class="container">
+        <div class="about">
+          <h2>Welcome to ShopHub</h2>
+          <p>Our mission is to make useful digital resources easy to discover. We are building a simple, friendly place for ideas, creativity and productivity.</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
-<footer>
-<h3>ShopHub</h3>
-<p>Your destination for digital products.</p>
-<p>© 2026 ShopHub. All rights reserved.</p>
-</footer>
+  <footer>
+    <div class="container">© 2026 ShopHub. All rights reserved.</div>
+  </footer>
+
+  <button class="chat-toggle" id="chatToggle" aria-label="Open AI assistant">✦</button>
+
+  <section class="chat-panel" id="chatPanel" aria-label="ShopHub AI assistant">
+    <div class="chat-header">
+      <div><strong>ShopHub AI Assistant</strong><small>Powered by Claude</small></div>
+      <button class="chat-close" id="chatClose" aria-label="Close chat">×</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message bot">Hello! 👋 Welcome to ShopHub. How can I help you today?</div>
+    </div>
+    <form class="chat-form" id="chatForm">
+      <input id="chatInput" type="text" placeholder="Ask me anything..." autocomplete="off" required>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <script>
+    const toggle = document.getElementById("chatToggle");
+    const panel = document.getElementById("chatPanel");
+    const close = document.getElementById("chatClose");
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("chatInput");
+    const messagesBox = document.getElementById("chatMessages");
+
+    let conversation = [];
+
+    toggle.addEventListener("click", () => panel.classList.toggle("open"));
+    close.addEventListener("click", () => panel.classList.remove("open"));
+
+    function addMessage(text, type) {
+      const message = document.createElement("div");
+      message.className = "message " + type;
+      message.textContent = text;
+      messagesBox.appendChild(message);
+      messagesBox.scrollTop = messagesBox.scrollHeight;
+      return message;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const question = input.value.trim();
+      if (!question) return;
+
+      addMessage(question, "user");
+      conversation.push({ role: "user", content: question });
+      input.value = "";
+      input.disabled = true;
+
+      const waiting = addMessage("Thinking...", "bot");
+
+      try {
+        const response = await fetch("/.netlify/functions/claude", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: conversation })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || "The assistant is temporarily unavailable.");
+        }
+
+        const answer = data.reply || "Sorry, I could not generate a response.";
+        waiting.textContent = answer;
+        conversation.push({ role: "assistant", content: answer });
+      } catch (error) {
+        waiting.textContent = "Sorry, I couldn't connect right now. Please try again later.";
+        conversation.pop();
+        console.error(error);
+      } finally {
+        input.disabled = false;
+        input.focus();
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+      }
+    });
+  </script>
 </body>
 </html>
