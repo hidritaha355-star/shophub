@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ShopHub - Discover useful digital products, ebooks, planners and templates.">
+<title>ShopHub | Digital Products Store</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f8f9fc;color:#182033}
+header{background:#fff;padding:20px 7%;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px #ddd}
+.logo{font-size:27px;font-weight:bold;color:#252b48}
+.logo span{color:#7157e8}
+nav a{margin-left:20px;text-decoration:none;color:#333}
+.hero{text-align:center;padding:90px 20px;background:linear-gradient(135deg,#e9e5ff,#f9f7ff)}
+.hero h1{font-size:48px;margin:10px}
+.hero p{font-size:18px;color:#596174}
+.btn{display:inline-block;background:#7157e8;color:white;padding:14px 28px;border-radius:9px;text-decoration:none;margin-top:15px}
+section{padding:55px 7%}
+h2{text-align:center;font-size:30px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:white;padding:25px;border-radius:15px;text-align:center;box-shadow:0 4px 15px #0000000b}
+.card .emoji{font-size:42px}
+.card p{color:#697386}
+.products .card{border:1px solid #eee}
+footer{text-align:center;background:#182033;color:white;padding:30px}
+@media(max-width:650px){
+.hero h1{font-size:34px}
+.grid{grid-template-columns:1fr}
+nav a{margin-left:8px;font-size:13px}
+header{padding:16px 5%}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Shop<span>Hub</span></div>
+<nav>
+<a href="#categories">Categories</a>
+<a href="#products">Products</a>
+<a href="#about">About</a>
+</nav>
+</header>
+
+<div class="hero">
+<h1>Discover Your Next Favorite Digital Product</h1>
+<p>Ebooks, planners, templates and useful digital resources in one place.</p>
+<a class="btn" href="#products">Explore Products</a>
+</div>
+
+<section id="categories">
+<h2>Shop by Category</h2>
+<div class="grid">
+<div class="card"><div class="emoji">📚</div><h3>Ebooks & Guides</h3><p>Learn something new with practical digital guides.</p></div>
+<div class="card"><div class="emoji">📅</div><h3>Planners</h3><p>Organize your goals and everyday life.</p></div>
+<div class="card"><div class="emoji">🎨</div><h3>Templates</h3><p>Creative resources ready to customize.</p></div>
+</div>
+</section>
+
+<section class="products" id="products">
+<h2>Featured Products</h2>
+<div class="grid">
+<div class="card"><div class="emoji">📖</div><h3>Digital Ebooks</h3><p>Discover useful knowledge and inspiration.</p><strong>Coming Soon</strong></div>
+<div class="card"><div class="emoji">📝</div><h3>Daily Planners</h3><p>Make your days more organized.</p><strong>Coming Soon</strong></div>
+<div class="card"><div class="emoji">💡</div><h3>Creative Templates</h3><p>Simple tools for your next project.</p><strong>Coming Soon</strong></div>
+</div>
+</section>
+
+<section id="about">
+<h2>About ShopHub</h2>
+<p style="text-align:center;max-width:650px;margin:auto;color:#697386">ShopHub brings together useful digital products to help you learn, plan, create and grow. Explore our collection and discover resources made for everyday life.</p>
+</section>
+
+<footer>
+<h3>ShopHub</h3>
+<p>Your destination for digital products.</p>
+<p>© 2026 ShopHub. All rights reserved.</p>
+</footer>
+</body>
+</html>
