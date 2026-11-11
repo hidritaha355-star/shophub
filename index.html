@@ -377,6 +377,32 @@
   </section>
 
   <script>
+    const languageToggle = document.getElementById("languageToggle");
+
+const translations = {
+  en: {
+    categories: "Categories",
+    products: "Products",
+    about: "About",
+    explore: "Explore Shop"
+  },
+  ar: {
+    categories: "الفئات",
+    products: "المنتجات",
+    about: "من نحن",
+    explore: "تصفح المتجر"
+  }
+};
+
+languageToggle.addEventListener("click", () => {
+  const isArabic = document.documentElement.lang === "en";
+  const lang = isArabic ? "ar" : "en";
+
+  document.documentElement.lang = lang;
+  document.documentElement.dir = isArabic ? "rtl" : "ltr";
+
+  languageToggle.textContent = isArabic ? "English" : "العربية";
+});
     const toggle = document.getElementById("chatToggle");
     const panel = document.getElementById("chatPanel");
     const close = document.getElementById("chatClose");
