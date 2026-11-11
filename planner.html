@@ -11,16 +11,14 @@
 <style>
 :root{--bg:#f7f8fc;--dark:#101827;--muted:#64748b;--purple:#7357f5;--light:#eeeaff;--border:#e8eaf1}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--dark);line-height:1.7}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--dark);line-height:1.7}
 a{color:inherit;text-decoration:none}
 .container{width:min(1000px,90%);margin:auto}
 header{background:#fff;border-bottom:1px solid var(--border)}
 .nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:14px}
-.logo{font-size:25px;font-weight:850;letter-spacing:-1px}
-.logo span{color:var(--purple)}
+.logo{font-size:25px;font-weight:850}.logo span{color:var(--purple)}
 .actions{display:flex;gap:10px;align-items:center}
 .btn{display:inline-block;border:0;border-radius:12px;padding:10px 16px;background:var(--purple);color:#fff;font-weight:700;cursor:pointer}
-.btn:hover{background:#5c40df}
 .light{background:var(--light);color:var(--purple)}
 main{padding:58px 0 75px}
 .intro{text-align:center;margin-bottom:35px}
@@ -32,21 +30,18 @@ h1{font-size:clamp(32px,5vw,48px);line-height:1.2;margin-bottom:12px}
 .visual{height:170px;border-radius:15px;background:linear-gradient(140deg,#eeeaff,#dcd4ff);display:grid;place-items:center;font-size:64px;margin-bottom:18px}
 h2{font-size:21px;margin-bottom:8px}
 .product p{color:var(--muted);font-size:14px}
+.price{color:var(--dark)!important;font-size:27px!important;font-weight:800;margin-top:15px}
 .status{display:inline-block;margin-top:15px;color:var(--purple);background:var(--light);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:800}
 .back{text-align:center;margin-top:35px}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:25px 0;border-top:1px solid var(--border)}
 html[dir=rtl] body{text-align:right}
-@media(max-width:600px){
-.nav{min-height:68px;flex-wrap:wrap;padding:12px 0}
-.btn{padding:9px 12px;font-size:13px}
-main{padding:42px 0 55px}
-}
+@media(max-width:600px){.nav{min-height:68px;flex-wrap:wrap;padding:12px 0}.btn{padding:9px 12px;font-size:13px}main{padding:42px 0 55px}}
 </style>
 </head>
 <body>
 <header>
 <div class="container nav">
-<a class="logo" href="/" aria-label="ShopHub home">Shop<span>Hub</span></a>
+<a class="logo" href="/">Shop<span>Hub</span></a>
 <div class="actions">
 <button class="btn light" id="languageToggle" type="button">العربية</button>
 <a class="btn" id="backTop" href="/">Back to Shop</a>
@@ -61,12 +56,13 @@ main{padding:42px 0 55px}
 <p id="pageDescription">Simple planning resources to help organize your tasks, goals and daily priorities.</p>
 </section>
 
-<section class="products" aria-label="Planners">
+<section class="products">
 <article class="product">
-<div class="visual" aria-hidden="true">🗓️</div>
+<div class="visual">🗓️</div>
 <h2 id="plannerTitle">Daily Planner PDF</h2>
 <p id="plannerDescription">A simple printable planner to organize tasks, goals and daily priorities.</p>
-<span class="status" id="plannerStatus">PREVIEW · PRICE COMING SOON</span>
+<p class="price">$3.99</p>
+<span class="status" id="plannerStatus">PREVIEW · PURCHASE LINK COMING SOON</span>
 </article>
 </section>
 
@@ -78,7 +74,7 @@ main{padding:42px 0 55px}
 <footer id="footerText">© 2026 ShopHub. All rights reserved.</footer>
 
 <script>
-const translations = {
+const translations={
 en:{
 title:"Planners | ShopHub",
 eyebrow:"PLAN · ORGANIZE · ACHIEVE",
@@ -86,7 +82,7 @@ pageTitle:"Planners",
 description:"Simple planning resources to help organize your tasks, goals and daily priorities.",
 itemTitle:"Daily Planner PDF",
 itemDescription:"A simple printable planner to organize tasks, goals and daily priorities.",
-status:"PREVIEW · PRICE COMING SOON",
+status:"PREVIEW · PURCHASE LINK COMING SOON",
 back:"Back to Shop",
 backButton:"← Back to ShopHub",
 footer:"© 2026 ShopHub. All rights reserved.",
@@ -99,7 +95,7 @@ pageTitle:"المخططات",
 description:"موارد تخطيط بسيطة تساعدك على تنظيم مهامك وأهدافك وأولوياتك اليومية.",
 itemTitle:"مخطط يومي PDF",
 itemDescription:"مخطط قابل للطباعة لتنظيم المهام والأهداف والأولويات اليومية.",
-status:"معاينة · السعر قريباً",
+status:"معاينة · رابط الشراء قريباً",
 back:"العودة إلى المتجر",
 backButton:"العودة إلى ShopHub ←",
 footer:"© 2026 ShopHub. جميع الحقوق محفوظة.",
@@ -108,15 +104,12 @@ toggle:"English"
 };
 
 let language="en";
-
 function setLanguage(next){
 language=next;
 const t=translations[next];
-
 document.documentElement.lang=next;
 document.documentElement.dir=next==="ar"?"rtl":"ltr";
 document.title=t.title;
-
 for(const [id,key] of [
 ["eyebrow","eyebrow"],
 ["pageTitle","pageTitle"],
@@ -130,14 +123,11 @@ for(const [id,key] of [
 ]){
 document.getElementById(id).textContent=t[key];
 }
-
 document.getElementById("languageToggle").textContent=t.toggle;
 }
-
 document.getElementById("languageToggle").addEventListener("click",()=>{
 setLanguage(language==="en"?"ar":"en");
 });
-
 setLanguage("en");
 </script>
 </body>
