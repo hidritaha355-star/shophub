@@ -1,13 +1,51 @@
 
+const MAX_BODY_BYTES = 16 * 1024;
+const MAX_REQUESTS = 8;
+const WINDOW_MS = 60_000;
+
+const requestBuckets = new Map<string, { count: number; resetAt: number }>();
+
 export default async (req: Request): Promise<Response> => {
   const json = (data: unknown, status = 200) =>
     new Response(JSON.stringify(data), {
       status,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+      },
     });
 
   if (req.method !== "POST") {
     return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (!req.headers.get("content-type")?.includes("application/json")) {
+    return json({ error: "JSON content type required." }, 415);
+  }
+
+  const clientIp =
+    req.headers.get("x-nf-client-connection-ip") || "unknown-client";
+
+  const now = Date.now();
+
+  for (const [key, bucket] of requestBuckets) {
+    if (bucket.resetAt <= now) requestBuckets.delete(key);
+  }
+
+  const bucket = requestBuckets.get(clientIp);
+
+  if (bucket && bucket.resetAt > now && bucket.count >= MAX_REQUESTS) {
+    return json({ error: "Too many requests. Please try again shortly." }, 429);
+  }
+
+  if (!bucket || bucket.resetAt <= now) {
+    requestBuckets.set(clientIp, {
+      count: 1,
+      resetAt: now + WINDOW_MS,
+    });
+  } else {
+    bucket.count++;
   }
 
   try {
@@ -17,20 +55,58 @@ export default async (req: Request): Promise<Response> => {
       return json({ error: "AI service is not configured." }, 500);
     }
 
-    const body = await req.json();
-    const incoming = body?.messages;
+    const contentLength = Number(req.headers.get("content-length") || 0);
 
-    if (!Array.isArray(incoming) || incoming.length === 0) {
-      return json({ error: "Please send a message." }, 400);
+    if (contentLength > MAX_BODY_BYTES) {
+      return json({ error: "Request is too large." }, 413);
     }
 
-    const messages = incoming.slice(-20).map((item: any) => {
+    const rawBody = await req.text();
+
+    if (new TextEncoder().encode(rawBody).length > MAX_BODY_BYTES) {
+      return json({ error: "Request is too large." }, 413);
+    }
+
+    let body: any;
+
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      return json({ error: "Invalid JSON." }, 400);
+    }
+
+    const incoming = body?.messages;
+
+    if (
+      !Array.isArray(incoming) ||
+      incoming.length === 0 ||
+    ) {
+      return json({ error: "Invalid message list." }, 400);
+    }
+
+    let totalLength = 0;
+
+    const messages = incoming.slice(-20).map((item: any, index: number) => {
       if (
-        !["user", "assistant"].includes(item?.role) ||
-        typeof item?.content !== "string" ||
-        item.content.length > 4000
+        !item ||
+        !["user", "assistant"].includes(item.role) ||
+        typeof item.content !== "string" ||
+        item.content.trim().length === 0 ||
+        item.content.length > 2000
       ) {
         throw new Error("Invalid message format");
+      }
+
+      totalLength += item.content.length;
+
+      if (totalLength > 10000) {
+        throw new Error("Conversation is too long");
+      }
+
+      const expectedRole = index % 2 === 0 ? "user" : "assistant";
+
+      if (item.role !== expectedRole) {
+        throw new Error("Invalid message order");
       }
 
       return {
