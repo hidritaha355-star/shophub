@@ -273,7 +273,6 @@
       transition: transform .2s, box-shadow .2s;
     }
 
-    /* إصلاح بطاقات الفئات لتصبح قابلة للنقر */
     .category-link {
       display: block;
       cursor: pointer;
@@ -601,7 +600,7 @@
   <header>
     <div class="container nav">
 
-      <a class="logo" href="#" aria-label="ShopHub home">
+      <a class="logo" href="/" aria-label="ShopHub home">
         Shop<span>Hub</span>
       </a>
 
@@ -675,7 +674,8 @@
 
         <div class="categories">
 
-          <a class="category category-link" href="#product1"
+          <!-- EBOOKS: opens the separate ebooks page -->
+          <a class="category category-link" href="ebooks.html"
              aria-label="Explore Ebooks and Guides">
 
             <div class="category-icon" aria-hidden="true">📚</div>
@@ -1102,6 +1102,7 @@
 
         const targetId = link.getAttribute("href");
 
+        // Normal page links, such as ebooks.html, open normally.
         if (!targetId || !targetId.startsWith("#")) return;
 
         const target = document.querySelector(targetId);
@@ -1244,7 +1245,7 @@
 
       try {
 
-      const response = await fetch("/api/claude", {
+        const response = await fetch("/api/claude", {
 
           method: "POST",
 
