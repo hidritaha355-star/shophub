@@ -1,13 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta name="google-site-verification" content="QvTvG8gBiWjPYC0QPgUZJ0SURDns_FM0fNbreWwf5z4" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="google-site-verification" content="QvTvG8gBiWjPYC0QPgUZJ0SURDns_FM0fNbreWwf5z4">
   <meta name="google-site-verification" content="mKtPf9Yvd6VtSWgJjA_37HIS_nXFBhdQTGRNPuqpVWU">
+
   <meta name="theme-color" content="#101827">
   <meta name="description" content="Discover digital products, creative templates, ebooks and tools at ShopHub.">
   <meta name="robots" content="index, follow">
+
   <title>ShopHub — Digital Products for Everyone</title>
 
   <style>
@@ -23,9 +27,16 @@
       --shadow: 0 15px 35px #1b254010;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
 
     body {
       font-family: Inter, Arial, sans-serif;
@@ -34,18 +45,33 @@
       line-height: 1.7;
     }
 
-    button, input { font: inherit; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    button { cursor: pointer; }
-    a { color: inherit; text-decoration: none; }
+    button, input {
+      font: inherit;
+    }
 
-    .container { width: min(1120px, 90%); margin: auto; }
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, 90%);
+      margin: auto;
+    }
 
     header {
       position: sticky;
       top: 0;
       z-index: 10;
-      background: rgba(255,255,255,.96);
+      background: rgba(255,255,255,.97);
       border-bottom: 1px solid var(--border);
       backdrop-filter: blur(12px);
     }
@@ -58,8 +84,15 @@
       gap: 18px;
     }
 
-    .logo { font-size: 25px; font-weight: 850; letter-spacing: -1px; }
-    .logo span { color: var(--purple); }
+    .logo {
+      font-size: 25px;
+      font-weight: 850;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: var(--purple);
+    }
 
     .nav-links {
       display: flex;
@@ -68,11 +101,18 @@
       font-size: 14px;
     }
 
-    .nav-links a:hover { color: var(--purple); }
+    .nav-links a:hover {
+      color: var(--purple);
+    }
 
-    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-    .nav-button, .primary {
+    .nav-button,
+    .primary {
       display: inline-block;
       border: 0;
       border-radius: 12px;
@@ -83,7 +123,8 @@
       transition: .2s;
     }
 
-    .nav-button:hover, .primary:hover {
+    .nav-button:hover,
+    .primary:hover {
       background: var(--purple-dark);
       transform: translateY(-2px);
     }
@@ -93,9 +134,13 @@
       color: var(--purple);
     }
 
-    .language-button:hover { background: #e2dcff; }
+    .language-button:hover {
+      background: #e2dcff;
+    }
 
-    .hero { padding: 82px 0 72px; }
+    .hero {
+      padding: 82px 0 72px;
+    }
 
     .hero-inner {
       display: grid;
@@ -122,8 +167,17 @@
       margin-bottom: 22px;
     }
 
-    h1 span { display: block; color: var(--purple); }
-    .hero p { color: var(--muted); font-size: 17px; max-width: 540px; margin-bottom: 28px; }
+    h1 span {
+      display: block;
+      color: var(--purple);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 540px;
+      margin-bottom: 28px;
+    }
 
     .hero-art {
       min-height: 330px;
@@ -135,15 +189,27 @@
       position: relative;
     }
 
-    .hero-art::before, .hero-art::after {
+    .hero-art::before,
+    .hero-art::after {
       content: "";
       position: absolute;
       border-radius: 50%;
       background: rgba(255,255,255,.15);
     }
 
-    .hero-art::before { width: 260px; height: 260px; top: -90px; right: -40px; }
-    .hero-art::after { width: 180px; height: 180px; bottom: -70px; left: -35px; }
+    .hero-art::before {
+      width: 260px;
+      height: 260px;
+      top: -90px;
+      right: -40px;
+    }
+
+    .hero-art::after {
+      width: 180px;
+      height: 180px;
+      bottom: -70px;
+      left: -35px;
+    }
 
     .art-card {
       position: relative;
@@ -156,22 +222,50 @@
       transform: rotate(-4deg);
     }
 
-    .art-icon { font-size: 48px; margin-bottom: 12px; }
-    .art-card h3 { font-size: 22px; }
-    .art-card p { color: var(--muted); font-size: 13px; margin-top: 5px; }
+    .art-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
 
-    .section { padding: 65px 0; }
-    .section-heading { text-align: center; margin-bottom: 35px; }
-    .section-heading h2 { font-size: 32px; letter-spacing: -1px; }
-    .section-heading p { color: var(--muted); margin-top: 8px; }
+    .art-card h3 {
+      font-size: 22px;
+    }
 
-    .categories, .products {
+    .art-card p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+      margin-bottom: 0;
+    }
+
+    .section {
+      padding: 65px 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .section-heading h2 {
+      font-size: 32px;
+      letter-spacing: -1px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .categories,
+    .products {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
 
-    .category, .product {
+    .category,
+    .product {
       background: white;
       border: 1px solid var(--border);
       border-radius: 19px;
@@ -179,14 +273,47 @@
       transition: transform .2s, box-shadow .2s;
     }
 
-    .category:hover, .product:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow);
+    /* إصلاح بطاقات الفئات لتصبح قابلة للنقر */
+    .category-link {
+      display: block;
+      cursor: pointer;
+      min-width: 0;
+      height: 100%;
     }
 
-    .category-icon { font-size: 34px; margin-bottom: 12px; }
-    .category h3, .product h3 { margin-bottom: 7px; }
-    .category p, .product p { color: var(--muted); font-size: 14px; }
+    .category-link:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+      border-color: var(--purple);
+    }
+
+    .category-link:focus-visible,
+    .nav a:focus-visible,
+    button:focus-visible,
+    .primary:focus-visible {
+      outline: 3px solid var(--purple);
+      outline-offset: 4px;
+    }
+
+    .category-icon {
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
+
+    .category h3,
+    .product h3 {
+      margin-bottom: 7px;
+    }
+
+    .category p,
+    .product p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .product {
+      scroll-margin-top: 100px;
+    }
 
     .product-visual {
       height: 145px;
@@ -198,8 +325,13 @@
       background: #f0edff;
     }
 
-    .product:nth-child(2) .product-visual { background: #e7f8f2; }
-    .product:nth-child(3) .product-visual { background: #fff2e5; }
+    .product:nth-child(2) .product-visual {
+      background: #e7f8f2;
+    }
+
+    .product:nth-child(3) .product-visual {
+      background: #fff2e5;
+    }
 
     .coming {
       display: inline-block;
@@ -220,9 +352,20 @@
       text-align: center;
     }
 
-    .about p { color: #c3cada; max-width: 650px; margin: 12px auto 0; }
+    .about p {
+      color: #c3cada;
+      max-width: 650px;
+      margin: 12px auto 0;
+    }
 
-    footer { padding: 30px 0; color: var(--muted); font-size: 13px; text-align: center; }
+    footer {
+      padding: 30px 0;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* Chat assistant */
 
     .chat-toggle {
       position: fixed;
@@ -239,7 +382,9 @@
       box-shadow: 0 8px 25px #7357f555;
     }
 
-    .chat-toggle:hover { background: var(--purple-dark); }
+    .chat-toggle:hover {
+      background: var(--purple-dark);
+    }
 
     .chat-panel {
       display: none;
@@ -257,7 +402,10 @@
       overflow: hidden;
     }
 
-    .chat-panel.open { display: flex; flex-direction: column; }
+    .chat-panel.open {
+      display: flex;
+      flex-direction: column;
+    }
 
     .chat-header {
       background: var(--dark);
@@ -269,8 +417,17 @@
       gap: 12px;
     }
 
-    .chat-header small { color: #c4cbd8; display: block; }
-    .chat-close { background: none; border: 0; color: white; font-size: 24px; }
+    .chat-header small {
+      color: #c4cbd8;
+      display: block;
+    }
+
+    .chat-close {
+      background: none;
+      border: 0;
+      color: white;
+      font-size: 24px;
+    }
 
     .chat-messages {
       padding: 16px;
@@ -290,8 +447,16 @@
       overflow-wrap: anywhere;
     }
 
-    .bot { background: #f0efff; align-self: flex-start; }
-    .user { background: var(--purple); color: white; align-self: flex-end; }
+    .bot {
+      background: #f0efff;
+      align-self: flex-start;
+    }
+
+    .user {
+      background: var(--purple);
+      color: white;
+      align-self: flex-end;
+    }
 
     .chat-form {
       display: flex;
@@ -309,7 +474,9 @@
       outline: none;
     }
 
-    .chat-form input:focus { border-color: var(--purple); }
+    .chat-form input:focus {
+      border-color: var(--purple);
+    }
 
     .chat-form button {
       border: 0;
@@ -320,41 +487,123 @@
       font-weight: 700;
     }
 
-    .chat-form button:disabled, .chat-form input:disabled {
+    .chat-form button:disabled,
+    .chat-form input:disabled {
       opacity: .6;
       cursor: not-allowed;
     }
 
-    html[dir="rtl"] body { text-align: right; }
-    html[dir="rtl"] .nav-links { direction: rtl; }
-    html[dir="rtl"] .chat-panel { right: auto; left: 22px; }
-    html[dir="rtl"] .chat-toggle { right: auto; left: 22px; }
-    html[dir="rtl"] .bot { align-self: flex-end; }
-    html[dir="rtl"] .user { align-self: flex-start; }
+    html[dir="rtl"] body {
+      text-align: right;
+    }
+
+    html[dir="rtl"] .nav-links {
+      direction: rtl;
+    }
+
+    html[dir="rtl"] .chat-panel {
+      right: auto;
+      left: 22px;
+    }
+
+    html[dir="rtl"] .chat-toggle {
+      right: auto;
+      left: 22px;
+    }
+
+    html[dir="rtl"] .bot {
+      align-self: flex-end;
+    }
+
+    html[dir="rtl"] .user {
+      align-self: flex-start;
+    }
 
     @media (max-width: 760px) {
-      .nav { min-height: 68px; flex-wrap: wrap; padding: 12px 0; }
-      .nav-links { display: none; }
-      .nav-button { padding: 9px 12px; font-size: 13px; }
-      .hero { padding: 55px 0; }
-      .hero-inner { grid-template-columns: 1fr; gap: 30px; }
-      .hero-art { min-height: 260px; }
-      .categories, .products { grid-template-columns: 1fr; }
-      .about { padding: 35px 22px; }
-      .section { padding: 48px 0; }
+      .nav {
+        min-height: 68px;
+        flex-wrap: wrap;
+        padding: 12px 0;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-button {
+        padding: 9px 12px;
+        font-size: 13px;
+      }
+
+      .hero {
+        padding: 55px 0;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .hero-art {
+        min-height: 260px;
+      }
+
+      .categories,
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .category,
+      .product {
+        padding: 22px;
+      }
+
+      .about {
+        padding: 35px 22px;
+      }
+
+      .section {
+        padding: 48px 0;
+      }
+
+      .section-heading h2 {
+        font-size: 27px;
+      }
+
+      .chat-panel {
+        right: 16px;
+        bottom: 90px;
+        width: calc(100% - 32px);
+      }
+
+      html[dir="rtl"] .chat-panel {
+        right: 16px;
+        left: auto;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition-duration: .01ms !important; }
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
 
 <body>
+
   <header>
     <div class="container nav">
-      <a class="logo" href="#" aria-label="ShopHub home">Shop<span>Hub</span></a>
+
+      <a class="logo" href="#" aria-label="ShopHub home">
+        Shop<span>Hub</span>
+      </a>
 
       <nav class="nav-links" aria-label="Main navigation">
         <a href="#categories" id="linkCategories">Categories</a>
@@ -363,23 +612,42 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="nav-button language-button" id="languageToggle" type="button">العربية</button>
-        <a class="nav-button" id="linkExplore" href="#products">Explore Shop</a>
+        <button class="nav-button language-button" id="languageToggle" type="button">
+          العربية
+        </button>
+
+        <a class="nav-button" id="linkExplore" href="#products">
+          Explore Shop
+        </a>
       </div>
+
     </div>
   </header>
 
   <main>
+
+    <!-- HERO -->
+
     <section class="hero">
       <div class="container hero-inner">
+
         <div>
-          <span class="eyebrow" id="heroEyebrow">YOUR DIGITAL WORLD STARTS HERE</span>
+          <span class="eyebrow" id="heroEyebrow">
+            YOUR DIGITAL WORLD STARTS HERE
+          </span>
+
           <h1>
             <span id="heroTitleMain">Discover digital products</span>
             <span id="heroTitleAccent">made for you.</span>
           </h1>
-          <p id="heroDescription">Explore ebooks, useful templates, planners and digital tools designed to inspire your next idea.</p>
-          <a class="primary" id="heroButton" href="#categories">Explore categories</a>
+
+          <p id="heroDescription">
+            Explore ebooks, useful templates, planners and digital tools designed to inspire your next idea.
+          </p>
+
+          <a class="primary" id="heroButton" href="#categories">
+            Explore categories
+          </a>
         </div>
 
         <div class="hero-art" aria-hidden="true">
@@ -389,100 +657,208 @@
             <p id="artDescription">Everything digital, in one place.</p>
           </div>
         </div>
+
       </div>
     </section>
+
+    <!-- CATEGORIES -->
 
     <section class="section" id="categories">
       <div class="container">
+
         <div class="section-heading">
           <h2 id="categoriesTitle">Explore Categories</h2>
-          <p id="categoriesDescription">Find the digital resources you need.</p>
+          <p id="categoriesDescription">
+            Find the digital resources you need.
+          </p>
         </div>
 
         <div class="categories">
-          <article class="category">
+
+          <a class="category category-link" href="#product1"
+             aria-label="Explore Ebooks and Guides">
+
             <div class="category-icon" aria-hidden="true">📚</div>
+
             <h3 id="category1Title">Ebooks & Guides</h3>
-            <p id="category1Description">Knowledge and inspiration for every day.</p>
-          </article>
 
-          <article class="category">
+            <p id="category1Description">
+              Knowledge and inspiration for every day.
+            </p>
+
+          </a>
+
+          <a class="category category-link" href="#product2"
+             aria-label="Explore Planners">
+
             <div class="category-icon" aria-hidden="true">📅</div>
-            <h3 id="category2Title">Planners</h3>
-            <p id="category2Description">Organize your goals and make progress.</p>
-          </article>
 
-          <article class="category">
+            <h3 id="category2Title">Planners</h3>
+
+            <p id="category2Description">
+              Organize your goals and make progress.
+            </p>
+
+          </a>
+
+          <a class="category category-link" href="#product3"
+             aria-label="Explore Templates">
+
             <div class="category-icon" aria-hidden="true">🎨</div>
+
             <h3 id="category3Title">Templates</h3>
-            <p id="category3Description">Creative resources to make work easier.</p>
-          </article>
+
+            <p id="category3Description">
+              Creative resources to make work easier.
+            </p>
+
+          </a>
+
         </div>
       </div>
     </section>
+
+    <!-- PRODUCTS -->
 
     <section class="section" id="products">
       <div class="container">
+
         <div class="section-heading">
           <h2 id="productsTitle">Our First Digital Products</h2>
-          <p id="productsDescription">Explore the first three products planned for the ShopHub collection.</p>
+
+          <p id="productsDescription">
+            Explore the first three products planned for the ShopHub collection.
+          </p>
         </div>
 
         <div class="products">
-          <article class="product">
+
+          <article class="product" id="product1" tabindex="-1">
+
             <div class="product-visual" aria-hidden="true">📖</div>
+
             <h3 id="product1Title">Digital Starter Ebook</h3>
-            <p id="product1Description">A practical beginner-friendly guide with useful tips and clear steps.</p>
-            <span class="coming" id="product1Status">PREVIEW · PRICE COMING SOON</span>
+
+            <p id="product1Description">
+              A practical beginner-friendly guide with useful tips and clear steps.
+            </p>
+
+            <span class="coming" id="product1Status">
+              PREVIEW · PRICE COMING SOON
+            </span>
+
           </article>
 
-          <article class="product">
+          <article class="product" id="product2" tabindex="-1">
+
             <div class="product-visual" aria-hidden="true">🗓️</div>
+
             <h3 id="product2Title">Daily Planner PDF</h3>
-            <p id="product2Description">A simple printable planner to organize tasks, goals and daily priorities.</p>
-            <span class="coming" id="product2Status">PREVIEW · PRICE COMING SOON</span>
+
+            <p id="product2Description">
+              A simple printable planner to organize tasks, goals and daily priorities.
+            </p>
+
+            <span class="coming" id="product2Status">
+              PREVIEW · PRICE COMING SOON
+            </span>
+
           </article>
 
-          <article class="product">
+          <article class="product" id="product3" tabindex="-1">
+
             <div class="product-visual" aria-hidden="true">🎨</div>
+
             <h3 id="product3Title">Social Media Template Pack</h3>
-            <p id="product3Description">Reusable creative layouts for posts and stories on social media.</p>
-            <span class="coming" id="product3Status">PREVIEW · PRICE COMING SOON</span>
+
+            <p id="product3Description">
+              Reusable creative layouts for posts and stories on social media.
+            </p>
+
+            <span class="coming" id="product3Status">
+              PREVIEW · PRICE COMING SOON
+            </span>
+
           </article>
+
         </div>
       </div>
     </section>
+
+    <!-- ABOUT -->
 
     <section class="section" id="about">
       <div class="container">
+
         <div class="about">
           <h2 id="aboutTitle">Welcome to ShopHub</h2>
-          <p id="aboutDescription">Our mission is to make useful digital resources easy to discover. We are building a simple, friendly place for ideas, creativity and productivity.</p>
+
+          <p id="aboutDescription">
+            Our mission is to make useful digital resources easy to discover.
+            We are building a simple, friendly place for ideas, creativity and productivity.
+          </p>
         </div>
+
       </div>
     </section>
+
   </main>
 
   <footer>
-    <div class="container" id="footerText">© 2026 ShopHub. All rights reserved.</div>
+    <div class="container" id="footerText">
+      © 2026 ShopHub. All rights reserved.
+    </div>
   </footer>
 
-  <button class="chat-toggle" id="chatToggle" type="button" aria-label="Open AI assistant" aria-controls="chatPanel" aria-expanded="false">✦</button>
+  <!-- AI CHAT -->
 
-  <section class="chat-panel" id="chatPanel" aria-label="ShopHub AI assistant" aria-hidden="true">
+  <button
+    class="chat-toggle"
+    id="chatToggle"
+    type="button"
+    aria-label="Open AI assistant"
+    aria-controls="chatPanel"
+    aria-expanded="false">
+    ✦
+  </button>
+
+  <section
+    class="chat-panel"
+    id="chatPanel"
+    aria-label="ShopHub AI assistant"
+    aria-hidden="true">
+
     <div class="chat-header">
+
       <div>
         <strong id="chatTitle">ShopHub AI Assistant</strong>
         <small>Powered by Claude</small>
       </div>
-      <button class="chat-close" id="chatClose" type="button" aria-label="Close chat">×</button>
+
+      <button
+        class="chat-close"
+        id="chatClose"
+        type="button"
+        aria-label="Close chat">
+        ×
+      </button>
+
     </div>
 
-    <div class="chat-messages" id="chatMessages" aria-live="polite" aria-relevant="additions text">
-      <div class="message bot" id="chatGreeting">Hello! 👋 Welcome to ShopHub. How can I help you today?</div>
+    <div
+      class="chat-messages"
+      id="chatMessages"
+      aria-live="polite"
+      aria-relevant="additions text">
+
+      <div class="message bot" id="chatGreeting">
+        Hello! 👋 Welcome to ShopHub. How can I help you today?
+      </div>
+
     </div>
 
     <form class="chat-form" id="chatForm">
+
       <input
         id="chatInput"
         type="text"
@@ -490,10 +866,12 @@
         autocomplete="off"
         maxlength="2000"
         aria-label="Message"
-        required
-      >
+        required>
+
       <button type="submit" id="chatSend">Send</button>
+
     </form>
+
   </section>
 
   <script>
@@ -502,38 +880,53 @@
     const languageToggle = document.getElementById("languageToggle");
 
     const translations = {
+
       en: {
         categories: "Categories",
         products: "Products",
         about: "About",
         explore: "Explore Shop",
+
         heroEyebrow: "YOUR DIGITAL WORLD STARTS HERE",
         heroTitleMain: "Discover digital products",
         heroTitleAccent: "made for you.",
         heroDescription: "Explore ebooks, useful templates, planners and digital tools designed to inspire your next idea.",
         heroButton: "Explore categories",
+
         artTitle: "Ideas. Tools. Possibilities.",
         artDescription: "Everything digital, in one place.",
+
         categoriesTitle: "Explore Categories",
         categoriesDescription: "Find the digital resources you need.",
+
         category1Title: "Ebooks & Guides",
         category1Description: "Knowledge and inspiration for every day.",
+
         category2Title: "Planners",
         category2Description: "Organize your goals and make progress.",
+
         category3Title: "Templates",
         category3Description: "Creative resources to make work easier.",
+
         productsTitle: "Our First Digital Products",
         productsDescription: "Explore the first three products planned for the ShopHub collection.",
+
         product1Title: "Digital Starter Ebook",
         product1Description: "A practical beginner-friendly guide with useful tips and clear steps.",
+
         product2Title: "Daily Planner PDF",
         product2Description: "A simple printable planner to organize tasks, goals and daily priorities.",
+
         product3Title: "Social Media Template Pack",
         product3Description: "Reusable creative layouts for posts and stories on social media.",
+
         status: "PREVIEW · PRICE COMING SOON",
+
         aboutTitle: "Welcome to ShopHub",
         aboutDescription: "Our mission is to make useful digital resources easy to discover. We are building a simple, friendly place for ideas, creativity and productivity.",
+
         footer: "© 2026 ShopHub. All rights reserved.",
+
         chatTitle: "ShopHub AI Assistant",
         greeting: "Hello! 👋 Welcome to ShopHub. How can I help you today?",
         placeholder: "Ask me anything...",
@@ -551,33 +944,47 @@
         products: "المنتجات",
         about: "من نحن",
         explore: "تصفح المتجر",
+
         heroEyebrow: "عالمك الرقمي يبدأ من هنا",
         heroTitleMain: "اكتشف منتجات رقمية",
         heroTitleAccent: "صُممت من أجلك.",
         heroDescription: "اكتشف الكتب الإلكترونية والقوالب والمخططات والأدوات الرقمية التي تلهم أفكارك القادمة.",
         heroButton: "استكشف الفئات",
+
         artTitle: "أفكار. أدوات. إمكانيات.",
         artDescription: "كل ما تحتاجه رقمياً في مكان واحد.",
+
         categoriesTitle: "استكشف الفئات",
         categoriesDescription: "اعثر على الموارد الرقمية التي تحتاجها.",
+
         category1Title: "الكتب والأدلة",
         category1Description: "المعرفة والإلهام لكل يوم.",
+
         category2Title: "المخططات",
         category2Description: "نظّم أهدافك وحقق تقدماً.",
+
         category3Title: "القوالب",
         category3Description: "موارد إبداعية تجعل العمل أسهل.",
+
         productsTitle: "أولى منتجاتنا الرقمية",
         productsDescription: "اكتشف أول ثلاثة منتجات ضمن مجموعة ShopHub.",
+
         product1Title: "كتاب البداية الرقمية",
         product1Description: "دليل عملي للمبتدئين يتضمن نصائح مفيدة وخطوات واضحة.",
+
         product2Title: "مخطط يومي PDF",
         product2Description: "مخطط قابل للطباعة لتنظيم المهام والأهداف والأولويات اليومية.",
+
         product3Title: "حزمة قوالب التواصل الاجتماعي",
         product3Description: "تصاميم إبداعية قابلة لإعادة الاستخدام للمنشورات والقصص.",
+
         status: "معاينة · السعر قريباً",
+
         aboutTitle: "مرحباً بك في ShopHub",
         aboutDescription: "مهمتنا هي تسهيل اكتشاف الموارد الرقمية المفيدة. نبني مساحة بسيطة وودية للأفكار والإبداع والإنتاجية.",
+
         footer: "© 2026 ShopHub. جميع الحقوق محفوظة.",
+
         chatTitle: "مساعد ShopHub الذكي",
         greeting: "مرحباً بك في ShopHub! 👋 كيف يمكنني مساعدتك اليوم؟",
         placeholder: "اكتب سؤالك هنا...",
@@ -589,14 +996,19 @@
         openChat: "فتح المساعد الذكي",
         closeChat: "إغلاق المحادثة"
       }
+
     };
 
     function setText(id, value) {
       const element = document.getElementById(id);
-      if (element) element.textContent = value;
+
+      if (element) {
+        element.textContent = value;
+      }
     }
 
     function changeLanguage(lang) {
+
       const t = translations[lang] || translations.en;
       const isArabic = lang === "ar";
 
@@ -607,55 +1019,107 @@
         ? "ShopHub — منتجات رقمية للجميع"
         : "ShopHub — Digital Products for Everyone";
 
-      setText("linkCategories", t.categories);
-      setText("linkProducts", t.products);
-      setText("linkAbout", t.about);
-      setText("linkExplore", t.explore);
-      setText("heroEyebrow", t.heroEyebrow);
-      setText("heroTitleMain", t.heroTitleMain);
-      setText("heroTitleAccent", t.heroTitleAccent);
-      setText("heroDescription", t.heroDescription);
-      setText("heroButton", t.heroButton);
-      setText("artTitle", t.artTitle);
-      setText("artDescription", t.artDescription);
-      setText("categoriesTitle", t.categoriesTitle);
-      setText("categoriesDescription", t.categoriesDescription);
-      setText("category1Title", t.category1Title);
-      setText("category1Description", t.category1Description);
-      setText("category2Title", t.category2Title);
-      setText("category2Description", t.category2Description);
-      setText("category3Title", t.category3Title);
-      setText("category3Description", t.category3Description);
-      setText("productsTitle", t.productsTitle);
-      setText("productsDescription", t.productsDescription);
-      setText("product1Title", t.product1Title);
-      setText("product1Description", t.product1Description);
-      setText("product2Title", t.product2Title);
-      setText("product2Description", t.product2Description);
-      setText("product3Title", t.product3Title);
-      setText("product3Description", t.product3Description);
+      const fields = [
+        ["linkCategories", "categories"],
+        ["linkProducts", "products"],
+        ["linkAbout", "about"],
+        ["linkExplore", "explore"],
+
+        ["heroEyebrow", "heroEyebrow"],
+        ["heroTitleMain", "heroTitleMain"],
+        ["heroTitleAccent", "heroTitleAccent"],
+        ["heroDescription", "heroDescription"],
+        ["heroButton", "heroButton"],
+
+        ["artTitle", "artTitle"],
+        ["artDescription", "artDescription"],
+
+        ["categoriesTitle", "categoriesTitle"],
+        ["categoriesDescription", "categoriesDescription"],
+
+        ["category1Title", "category1Title"],
+        ["category1Description", "category1Description"],
+        ["category2Title", "category2Title"],
+        ["category2Description", "category2Description"],
+        ["category3Title", "category3Title"],
+        ["category3Description", "category3Description"],
+
+        ["productsTitle", "productsTitle"],
+        ["productsDescription", "productsDescription"],
+
+        ["product1Title", "product1Title"],
+        ["product1Description", "product1Description"],
+        ["product2Title", "product2Title"],
+        ["product2Description", "product2Description"],
+        ["product3Title", "product3Title"],
+        ["product3Description", "product3Description"],
+
+        ["aboutTitle", "aboutTitle"],
+        ["aboutDescription", "aboutDescription"],
+        ["footerText", "footer"],
+
+        ["chatTitle", "chatTitle"],
+        ["chatGreeting", "greeting"],
+        ["chatSend", "send"]
+      ];
+
+      fields.forEach(([id, key]) => {
+        setText(id, t[key]);
+      });
+
       setText("product1Status", t.status);
       setText("product2Status", t.status);
       setText("product3Status", t.status);
-      setText("aboutTitle", t.aboutTitle);
-      setText("aboutDescription", t.aboutDescription);
-      setText("footerText", t.footer);
-      setText("chatTitle", t.chatTitle);
-      setText("chatGreeting", t.greeting);
-      setText("chatSend", t.send);
 
       document.getElementById("chatInput").placeholder = t.placeholder;
-      document.getElementById("chatToggle").setAttribute("aria-label", t.openChat);
-      document.getElementById("chatClose").setAttribute("aria-label", t.closeChat);
-      document.getElementById("chatPanel").setAttribute("aria-label", t.chatTitle);
+
+      document.getElementById("chatToggle")
+        .setAttribute("aria-label", t.openChat);
+
+      document.getElementById("chatClose")
+        .setAttribute("aria-label", t.closeChat);
+
+      document.getElementById("chatPanel")
+        .setAttribute("aria-label", t.chatTitle);
 
       languageToggle.textContent = isArabic ? "English" : "العربية";
     }
 
     languageToggle.addEventListener("click", () => {
-      const nextLanguage = document.documentElement.lang === "en" ? "ar" : "en";
+
+      const nextLanguage =
+        document.documentElement.lang === "en" ? "ar" : "en";
+
       changeLanguage(nextLanguage);
+
     });
+
+    /* CATEGORY NAVIGATION */
+
+    document.querySelectorAll(".category-link").forEach(link => {
+
+      link.addEventListener("click", event => {
+
+        const targetId = link.getAttribute("href");
+
+        if (!targetId || !targetId.startsWith("#")) return;
+
+        const target = document.querySelector(targetId);
+
+        if (!target) return;
+
+        event.preventDefault();
+
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+      });
+
+    });
+
+    /* CHAT ASSISTANT */
 
     const chatToggle = document.getElementById("chatToggle");
     const chatPanel = document.getElementById("chatPanel");
@@ -668,62 +1132,102 @@
     const MAX_INPUT_LENGTH = 2000;
     const MAX_CONTEXT_MESSAGES = 18;
     const MAX_CONTEXT_CHARACTERS = 8000;
+
     let conversation = [];
     let isSending = false;
 
     function setChatOpen(isOpen) {
+
       chatPanel.classList.toggle("open", isOpen);
-      chatPanel.setAttribute("aria-hidden", String(!isOpen));
-      chatToggle.setAttribute("aria-expanded", String(isOpen));
-      if (isOpen) chatInput.focus();
+
+      chatPanel.setAttribute(
+        "aria-hidden",
+        String(!isOpen)
+      );
+
+      chatToggle.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
+
+      if (isOpen) {
+        chatInput.focus();
+      }
+
     }
 
     chatToggle.addEventListener("click", () => {
+
       setChatOpen(!chatPanel.classList.contains("open"));
+
     });
 
     chatClose.addEventListener("click", () => {
+
       setChatOpen(false);
       chatToggle.focus();
+
     });
 
     function addMessage(messageText, type) {
+
       const message = document.createElement("div");
+
       message.className = "message " + type;
-      // textContent prevents untrusted text from being interpreted as HTML.
+
+      // Safe text rendering: never interpret messages as HTML.
       message.textContent = messageText;
+
       chatMessages.appendChild(message);
+
       chatMessages.scrollTop = chatMessages.scrollHeight;
+
       return message;
+
     }
 
     function trimConversation() {
-      const totalCharacters = () =>
-        conversation.reduce((total, item) => total + item.content.length, 0);
 
-      // Remove complete user/assistant pairs so the history always starts
-      // with a user message and keeps the server's expected role order.
+      const totalCharacters = () => {
+
+        return conversation.reduce(
+          (total, item) => total + item.content.length,
+          0
+        );
+
+      };
+
       while (
         conversation.length > MAX_CONTEXT_MESSAGES ||
         totalCharacters() > MAX_CONTEXT_CHARACTERS
       ) {
+
         if (conversation.length < 3) break;
+
         conversation.splice(0, 2);
+
       }
+
     }
 
-    chatForm.addEventListener("submit", async (event) => {
+    chatForm.addEventListener("submit", async event => {
+
       event.preventDefault();
 
       if (isSending) return;
 
       const question = chatInput.value.trim();
-      if (!question || question.length > MAX_INPUT_LENGTH) return;
+
+      if (!question || question.length > MAX_INPUT_LENGTH) {
+        return;
+      }
 
       const lang = document.documentElement.lang;
+
       const t = translations[lang] || translations.en;
 
       isSending = true;
+
       addMessage(question, "user");
 
       conversation.push({
@@ -732,25 +1236,38 @@
       });
 
       chatInput.value = "";
+
       chatInput.disabled = true;
       chatSend.disabled = true;
 
       const waitingMessage = addMessage(t.thinking, "bot");
 
       try {
+
         const response = await fetch("/.netlify/functions/claude", {
+
           method: "POST",
+
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ messages: conversation })
+
+          body: JSON.stringify({
+            messages: conversation
+          })
+
         });
 
         let data;
+
         try {
+
           data = await response.json();
+
         } catch {
+
           throw new Error("Invalid server response");
+
         }
 
         if (!response.ok) {
@@ -764,32 +1281,46 @@
 
         waitingMessage.textContent = answer;
 
-        // Keep stored assistant context within the server's input limit.
         conversation.push({
           role: "assistant",
           content: answer.slice(0, 1800)
         });
 
         trimConversation();
+
       } catch (error) {
+
         waitingMessage.textContent = t.error;
 
-        // Remove the unanswered user message; do not corrupt role order.
-        if (conversation.length && conversation[conversation.length - 1].role === "user") {
+        if (
+          conversation.length &&
+          conversation[conversation.length - 1].role === "user"
+        ) {
           conversation.pop();
         }
 
         console.error("ShopHub assistant request failed.");
+
       } finally {
+
         isSending = false;
+
         chatInput.disabled = false;
         chatSend.disabled = false;
+
         chatInput.focus();
+
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
       }
+
     });
 
+    /* INITIAL LANGUAGE */
+
     changeLanguage("en");
+
   </script>
+
 </body>
 </html>
