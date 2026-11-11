@@ -404,6 +404,10 @@ languageToggle.addEventListener("click", () => {
 
   document.documentElement.lang = lang;
   document.documentElement.dir = isArabic ? "rtl" : "ltr";
+  document.getElementById("linkCategories").textContent = translations[lang].categories;
+document.getElementById("linkProducts").textContent = translations[lang].products;
+document.getElementById("linkAbout").textContent = translations[lang].about;
+document.getElementById("linkExplore").textContent = translations[lang].explore;
 
   languageToggle.textContent = isArabic ? "English" : "العربية";
 });
