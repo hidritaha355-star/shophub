@@ -1,4 +1,5 @@
 import { pbkdf2Sync, timingSafeEqual } from "node:crypto";
+import { Buffer } from "node:buffer";
 const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store",...headers}});
 const enc=s=>new TextEncoder().encode(s);
 const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
