@@ -70,5 +70,5 @@ export async function onRequest({request,env}){
    return json({ok:true});
   }
   return json({error:"Not found."},404);
- }catch(e){console.error("ShopHub admin API failure", {path,method:request.method,error:e?.message||String(e),stack:e?.stack});return json({error:e.message==="Request too large"?e.message:"Invalid request or database error."},400);}
+ }catch(e){console.error("ShopHub admin API failure", {path,method:request.method,error:e?.message||String(e),stack:e?.stack});const detail=String(e?.message||e).replace(/[\\r\\n]/g," ").slice(0,180);return json({error:path==="/api/admin/login"?"Login diagnostic: "+detail:(e.message==="Request too large"?e.message:"Invalid request or database error.")},400);}
 }
