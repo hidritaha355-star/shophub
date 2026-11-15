@@ -1,5 +1,3 @@
-import { pbkdf2Sync, timingSafeEqual } from "node:crypto";
-import { Buffer } from "node:buffer";
 const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store",...headers}});
 const enc=s=>new TextEncoder().encode(s);
 const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
@@ -12,11 +10,17 @@ async function adminSession(req,env){
  const row=await env.SHOPHUB_DB.prepare("SELECT token_hash FROM sessions WHERE token_hash=? AND expires_at>?").bind(hash,now).first();
  return !!row;
 }
+function fromBase64(value){return Uint8Array.from(atob(value),c=>c.charCodeAt(0));}
 async function verifyPassword(password,admin){
- const salt=Buffer.from(admin.salt,"base64");
- const expected=Buffer.from(admin.password_hash,"base64");
- const actual=pbkdf2Sync(password,salt,admin.iterations,expected.length,"sha256");
- return actual.length===expected.length&&timingSafeEqual(actual,expected);
+ const salt=fromBase64(admin.salt),expected=fromBase64(admin.password_hash);
+ const iterations=Number(admin.iterations);
+ if(!Number.isInteger(iterations)||iterations<100000||iterations>1000000||expected.length===0)return false;
+ const key=await crypto.subtle.importKey("raw",enc(password),"PBKDF2",false,["deriveBits"]);
+ const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations,hash:"SHA-256"},key,expected.length*8);
+ const actual=new Uint8Array(bits);
+ if(actual.length!==expected.length)return false;
+ let diff=0;for(let i=0;i<actual.length;i++)diff|=actual[i]^expected[i];
+ return diff===0;
 }
 async function readBody(req){const raw=await req.text();if(raw.length>20000)throw new Error("Request too large");return JSON.parse(raw||"{}");}
 function cleanProduct(b){
@@ -31,18 +35,24 @@ function cleanProduct(b){
 export async function onRequest({request,env}){
  if(!env.SHOPHUB_DB)return json({error:"Database binding is missing."},503);
  let path=new URL(request.url).pathname;if(path.endsWith("/"))path=path.slice(0,-1);
+ let stage="route";
  try {
   if(path==="/api/admin/login"&&request.method==="POST"){
    const body=await readBody(request),ip=request.headers.get("CF-Connecting-IP")||"unknown",ipHash=await digest(ip),now=Math.floor(Date.now()/1000);
+   stage="read_login_attempt";
    const attempt=await env.SHOPHUB_DB.prepare("SELECT count,window_start FROM login_attempts WHERE ip_hash=?").bind(ipHash).first();
    if(attempt&&attempt.window_start>now-900&&attempt.count>=6)return json({error:"Too many attempts. Try again in 15 minutes."},429);
+   stage="read_admin";
    const admin=await env.SHOPHUB_DB.prepare("SELECT salt,password_hash,iterations FROM admins WHERE id=1").first();
+   stage="verify_password";
    const ok=admin&&typeof body.password==="string"&&body.password.length<=200&&await verifyPassword(body.password,admin);
    if(!ok){
     await env.SHOPHUB_DB.prepare("INSERT INTO login_attempts(ip_hash,count,window_start) VALUES(?,1,?) ON CONFLICT(ip_hash) DO UPDATE SET count=CASE WHEN window_start<? THEN 1 ELSE count+1 END,window_start=CASE WHEN window_start<? THEN excluded.window_start ELSE window_start END").bind(ipHash,now,now-900,now-900).run();
     return json({error:"Incorrect password."},401);
    }
+   stage="clear_login_attempts";
    await env.SHOPHUB_DB.prepare("DELETE FROM login_attempts WHERE ip_hash=?").bind(ipHash).run();
+   stage="create_session";
    const bytes=crypto.getRandomValues(new Uint8Array(32)),token=b64u(bytes),hash=await digest(token),expires=now+43200;
    await env.SHOPHUB_DB.prepare("INSERT INTO sessions(token_hash,expires_at) VALUES(?,?)").bind(hash,expires).run();
    return json({ok:true},200,{"Set-Cookie":"shophub_admin="+token+"; Path=/api/admin; HttpOnly; Secure; SameSite=Strict; Max-Age=43200"});
@@ -73,5 +83,5 @@ export async function onRequest({request,env}){
    return json({ok:true});
   }
   return json({error:"Not found."},404);
- }catch(e){console.error("ShopHub admin API failure", {path,method:request.method,error:e?.message||String(e)});return json({error:e?.message==="Request too large"?e.message:"Invalid request or database error."},400);}
+ }catch(e){console.error("ShopHub admin API failure", {path,method:request.method,stage,error:e?.message||String(e)});return json({error:e?.message==="Request too large"?e.message:"Invalid request or database error."},400);}
 }
