@@ -1,8 +1,9 @@
 const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store",...headers}});
 const enc=s=>new TextEncoder().encode(s);
-const b64u=b=>btoa(String.fromCharCode(...new Uint8Array(b))).replace(/=/g,"").replace(/\\+/g,"-").replace(/\\//g,"_");
+const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+const b64u=b=>b64(b).replaceAll("=","").replaceAll("+","-").replaceAll("/","_");
 async function digest(s){return b64u(await crypto.subtle.digest("SHA-256",enc(s)));}
-function cookie(req){const raw=req.headers.get("Cookie")||"";const m=raw.match(/(?:^|;\\s*)shophub_admin=([^;]+)/);return m?decodeURIComponent(m[1]):"";}
+function cookie(req){const part=(req.headers.get("Cookie")||"").split(";").map(x=>x.trim()).find(x=>x.startsWith("shophub_admin="));return part?decodeURIComponent(part.slice("shophub_admin=".length)):"";}
 async function adminSession(req,env){
  const token=cookie(req);if(!token)return false;
  const hash=await digest(token),now=Math.floor(Date.now()/1000);
@@ -12,24 +13,21 @@ async function adminSession(req,env){
 async function verifyPassword(password,admin){
  const key=await crypto.subtle.importKey("raw",enc(password),"PBKDF2",false,["deriveBits"]);
  const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt:Uint8Array.from(atob(admin.salt),c=>c.charCodeAt(0)),iterations:admin.iterations,hash:"SHA-256"},key,256);
- return b64u(bits)===admin.password_hash.replace(/\\+/g,"-").replace(/\\//g,"_").replace(/=/g,"");
+ return b64(bits)===admin.password_hash;
 }
-async function readBody(req){
- const raw=await req.text();if(raw.length>20000)throw new Error("Request too large");
- return JSON.parse(raw||"{}");
-}
+async function readBody(req){const raw=await req.text();if(raw.length>20000)throw new Error("Request too large");return JSON.parse(raw||"{}");}
 function cleanProduct(b){
  const name=String(b.name||"").trim(),description=String(b.description||"").trim(),checkout=String(b.checkout_url||"").trim();
  const price=Number(b.price),currency=String(b.currency||"USD").trim().toUpperCase(),category=String(b.category||"Other").trim().slice(0,40),image=String(b.image_url||"").trim();
  if(!name||name.length>120)throw new Error("Name is required (max 120 characters).");
  if(!Number.isFinite(price)||price<0||price>1000000)throw new Error("Enter a valid price.");
- if(!/^https:\\/\\//i.test(checkout)||checkout.length>1000)throw new Error("A valid HTTPS checkout link is required.");
- if(image&&!/^(https:\\/\\/|data:image\\/)/i.test(image)&&image.length>12)throw new Error("Image must be an HTTPS URL or a short emoji.");
+ if(!checkout.startsWith("https://")||checkout.length>1000)throw new Error("A valid HTTPS checkout link is required.");
+ if(image&&!image.startsWith("https://")&&!image.startsWith("data:image/")&&image.length>12)throw new Error("Image must be an HTTPS URL or a short emoji.");
  return {name,description:description.slice(0,2000),price,currency:/^[A-Z]{3}$/.test(currency)?currency:"USD",category,image_url:image.slice(0,1000),checkout_url:checkout};
 }
 export async function onRequest({request,env}){
  if(!env.SHOPHUB_DB)return json({error:"Database binding is missing."},503);
- const path=new URL(request.url).pathname.replace(/\\/$/,"");
+ let path=new URL(request.url).pathname;if(path.endsWith("/"))path=path.slice(0,-1);
  try {
   if(path==="/api/admin/login"&&request.method==="POST"){
    const body=await readBody(request),ip=request.headers.get("CF-Connecting-IP")||"unknown",ipHash=await digest(ip),now=Math.floor(Date.now()/1000);
@@ -60,14 +58,15 @@ export async function onRequest({request,env}){
    const r=await env.SHOPHUB_DB.prepare("INSERT INTO products(name,description,price,currency,category,image_url,checkout_url,active) VALUES(?,?,?,?,?,?,?,1)").bind(p.name,p.description,p.price,p.currency,p.category,p.image_url,p.checkout_url).run();
    return json({ok:true,id:r.meta.last_row_id},201);
   }
-  const match=path.match(/^\\/api\\/admin\\/products\\/(\\d+)$/);
-  if(match&&request.method==="PUT"){
-   const p=cleanProduct(await readBody(request)),id=Number(match[1]);
-   await env.SHOPHUB_DB.prepare("UPDATE products SET name=?,description=?,price=?,currency=?,category=?,image_url=?,checkout_url=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(p.name,p.description,p.price,p.currency,p.category,p.image_url,p.checkout_url,id).run();
+  const parts=path.split("/");
+  const productId=parts.length===5&&parts[1]==="api"&&parts[2]==="admin"&&parts[3]==="products"&&/^[0-9]+$/.test(parts[4])?Number(parts[4]):0;
+  if(productId&&request.method==="PUT"){
+   const p=cleanProduct(await readBody(request));
+   await env.SHOPHUB_DB.prepare("UPDATE products SET name=?,description=?,price=?,currency=?,category=?,image_url=?,checkout_url=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(p.name,p.description,p.price,p.currency,p.category,p.image_url,p.checkout_url,productId).run();
    return json({ok:true});
   }
-  if(match&&request.method==="DELETE"){
-   await env.SHOPHUB_DB.prepare("UPDATE products SET active=0,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(Number(match[1])).run();
+  if(productId&&request.method==="DELETE"){
+   await env.SHOPHUB_DB.prepare("UPDATE products SET active=0,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(productId).run();
    return json({ok:true});
   }
   return json({error:"Not found."},404);
