@@ -44,7 +44,7 @@ export async function onRequest({request,env}){
    await env.SHOPHUB_DB.prepare("DELETE FROM login_attempts WHERE ip_hash=?").bind(ipHash).run();
    const bytes=crypto.getRandomValues(new Uint8Array(32)),token=b64u(bytes),hash=await digest(token),expires=now+43200;
    await env.SHOPHUB_DB.prepare("INSERT INTO sessions(token_hash,expires_at) VALUES(?,?)").bind(hash,expires).run();
-   return json({ok:true},{},{}) instanceof Response ? json({ok:true},200,{"Set-Cookie":"shophub_admin="+token+"; Path=/api/admin; HttpOnly; Secure; SameSite=Strict; Max-Age=43200"}) : json({ok:true});
+   return json({ok:true},200,{"Set-Cookie":"shophub_admin="+token+"; Path=/api/admin; HttpOnly; Secure; SameSite=Strict; Max-Age=43200"});
   }
   if(path==="/api/admin/logout"&&request.method==="POST"){
    const token=cookie(request);if(token)await env.SHOPHUB_DB.prepare("DELETE FROM sessions WHERE token_hash=?").bind(await digest(token)).run();
