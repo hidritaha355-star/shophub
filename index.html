@@ -216,7 +216,7 @@ html[dir="rtl"] .nav-links {direction:rtl}
       <h2 id="productsTitle">Our Digital Products</h2>
       <p id="productsDescription">Explore our digital collection.</p>
     </div>
-    <div class="products">
+    <div class="products" id="productGrid">
 
       <article class="product">
         <div class="product-visual">📖</div>
@@ -364,7 +364,33 @@ document.getElementById("languageToggle").addEventListener("click",()=>{
   changeLanguage(currentLanguage==="en"?"ar":"en");
 });
 
+
+async function loadStoreProducts() {
+  const grid=document.getElementById("productGrid");
+  if(!grid)return;
+  try {
+    const response=await fetch("/api/products",{cache:"no-store"});
+    if(!response.ok)return;
+    const data=await response.json();
+    if(!Array.isArray(data.products)||!data.products.length)return;
+    const buttonText=currentLanguage==="ar"?"اشتر الآن":"Buy now";
+    grid.innerHTML=data.products.map(p=>{
+      const name=escapeProductText(p.name),description=escapeProductText(p.description);
+      const category=escapeProductText(p.category),currency=escapeProductText(p.currency||"USD");
+      const price=Number(p.price).toFixed(2),url=escapeProductText(p.checkout_url);
+      const visual=/^https:\\/\\//i.test(p.image_url||"")
+        ? '<img src="'+escapeProductText(p.image_url)+'" alt="'+name+'" style="max-width:100%;max-height:120px;object-fit:contain">'
+        : escapeProductText(p.image_url||"📦");
+      return '<article class="product"><div class="product-visual">'+visual+'</div><h3>'+name+'</h3><p>'+description+'</p><div class="price">'+currency+' '+price+'</div><a class="buy-button" href="'+url+'" target="_blank" rel="noopener">'+buttonText+' · '+currency+' '+price+'</a></article>';
+    }).join("");
+  } catch(error) { console.warn("ShopHub products could not be refreshed."); }
+}
+function escapeProductText(value) {
+  return String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+}
+
 changeLanguage("en");
+loadStoreProducts();
 </script>
 </body>
 </html>
