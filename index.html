@@ -378,7 +378,7 @@ async function loadStoreProducts() {
       const name=escapeProductText(p.name),description=escapeProductText(p.description);
       const category=escapeProductText(p.category),currency=escapeProductText(p.currency||"USD");
       const price=Number(p.price).toFixed(2),url=escapeProductText(p.checkout_url);
-      const visual=/^https:\\/\\//i.test(p.image_url||"")
+      const visual=String(p.image_url||"").startsWith("https://")
         ? '<img src="'+escapeProductText(p.image_url)+'" alt="'+name+'" style="max-width:100%;max-height:120px;object-fit:contain">'
         : escapeProductText(p.image_url||"📦");
       return '<article class="product"><div class="product-visual">'+visual+'</div><h3>'+name+'</h3><p>'+description+'</p><div class="price">'+currency+' '+price+'</div><a class="buy-button" href="'+url+'" target="_blank" rel="noopener">'+buttonText+' · '+currency+' '+price+'</a></article>';
