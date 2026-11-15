@@ -1,3 +1,4 @@
+import { pbkdf2Sync, timingSafeEqual } from "node:crypto";
 const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store",...headers}});
 const enc=s=>new TextEncoder().encode(s);
 const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
@@ -11,9 +12,10 @@ async function adminSession(req,env){
  return !!row;
 }
 async function verifyPassword(password,admin){
- const key=await crypto.subtle.importKey("raw",enc(password),"PBKDF2",false,["deriveBits"]);
- const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt:Uint8Array.from(atob(admin.salt),c=>c.charCodeAt(0)),iterations:admin.iterations,hash:"SHA-256"},key,256);
- return b64(bits)===admin.password_hash;
+ const salt=Buffer.from(admin.salt,"base64");
+ const expected=Buffer.from(admin.password_hash,"base64");
+ const actual=pbkdf2Sync(password,salt,admin.iterations,expected.length,"sha256");
+ return actual.length===expected.length&&timingSafeEqual(actual,expected);
 }
 async function readBody(req){const raw=await req.text();if(raw.length>20000)throw new Error("Request too large");return JSON.parse(raw||"{}");}
 function cleanProduct(b){
@@ -70,5 +72,5 @@ export async function onRequest({request,env}){
    return json({ok:true});
   }
   return json({error:"Not found."},404);
- }catch(e){console.error("ShopHub admin API failure", {path,method:request.method,error:e?.message||String(e),stack:e?.stack});const detail=String(e?.message||e).replace(/[\\r\\n]/g," ").slice(0,180);return json({error:path==="/api/admin/login"?"Login diagnostic: "+detail:(e.message==="Request too large"?e.message:"Invalid request or database error.")},400);}
+ }catch(e){console.error("ShopHub admin API failure", {path,method:request.method,error:e?.message||String(e)});return json({error:e?.message==="Request too large"?e.message:"Invalid request or database error."},400);}
 }
