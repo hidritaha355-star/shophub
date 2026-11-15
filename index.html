@@ -358,6 +358,7 @@ function changeLanguage(language) {
 
   fields.forEach(([id,key])=>setText(id,t[key]));
   setText("languageToggle",t.toggle);
+  if(window.storeProductsLoaded) loadStoreProducts();
 }
 
 document.getElementById("languageToggle").addEventListener("click",()=>{
@@ -373,6 +374,7 @@ async function loadStoreProducts() {
     if(!response.ok)return;
     const data=await response.json();
     if(!Array.isArray(data.products)||!data.products.length)return;
+    window.storeProductsLoaded=true;
     const buttonText=currentLanguage==="ar"?"اشتر الآن":"Buy now";
     grid.innerHTML=data.products.map(p=>{
       const name=escapeProductText(p.name),description=escapeProductText(p.description);
