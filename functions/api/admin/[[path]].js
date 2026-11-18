@@ -11,12 +11,18 @@ async function adminSession(req,env){
  return !!row;
 }
 function fromBase64(value){return Uint8Array.from(atob(value),c=>c.charCodeAt(0));}
-async function verifyPassword(password,admin){
- const salt=fromBase64(admin.salt),expected=fromBase64(admin.password_hash);
+async function verifyPassword(password,admin,setStage=()=>{}){
+ setStage("decode_password_salt");
+ const salt=fromBase64(admin.salt);
+ setStage("decode_password_hash");
+ const expected=fromBase64(admin.password_hash);
  const iterations=Number(admin.iterations);
  if(!Number.isInteger(iterations)||iterations<100000||iterations>1000000||expected.length===0)return false;
+ setStage("import_password_key");
  const key=await crypto.subtle.importKey("raw",enc(password),"PBKDF2",false,["deriveBits"]);
+ setStage("derive_password_hash");
  const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations,hash:"SHA-256"},key,expected.length*8);
+ setStage("compare_password_hash");
  const actual=new Uint8Array(bits);
  if(actual.length!==expected.length)return false;
  let diff=0;for(let i=0;i<actual.length;i++)diff|=actual[i]^expected[i];
@@ -45,7 +51,7 @@ export async function onRequest({request,env}){
    stage="read_admin";
    const admin=await env.SHOPHUB_DB.prepare("SELECT salt,password_hash,iterations FROM admins WHERE id=1").first();
    stage="verify_password";
-   const ok=admin&&typeof body.password==="string"&&body.password.length<=200&&await verifyPassword(body.password,admin);
+   const ok=admin&&typeof body.password==="string"&&body.password.length<=200&&await verifyPassword(body.password,admin,s=>stage=s);
    if(!ok){
     await env.SHOPHUB_DB.prepare("INSERT INTO login_attempts(ip_hash,count,window_start) VALUES(?,1,?) ON CONFLICT(ip_hash) DO UPDATE SET count=CASE WHEN window_start<? THEN 1 ELSE count+1 END,window_start=CASE WHEN window_start<? THEN excluded.window_start ELSE window_start END").bind(ipHash,now,now-900,now-900).run();
     return json({error:"Incorrect password."},401);
@@ -83,5 +89,5 @@ export async function onRequest({request,env}){
    return json({ok:true});
   }
   return json({error:"Not found."},404);
- }catch(e){console.error("ShopHub admin API failure", {path,method:request.method,stage,error:e?.message||String(e)});return json({error:e?.message==="Request too large"?e.message:"Invalid request or database error.",debug_stage:stage},400);}
+ }catch(e){console.error("ShopHub admin API failure", {path,method:request.method,stage,error:e?.message||String(e)});return json({error:e?.message==="Request too large"?e.message:"Invalid request or database error.",debug_stage:stage,debug_error:stage.startsWith("decode_password")||stage.startsWith("import_password")||stage.startsWith("derive_password")?String(e?.name||"Error")+": "+String(e?.message||"").slice(0,180):undefined},400);}
 }
