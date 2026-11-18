@@ -17,21 +17,13 @@ async function verifyPassword(password,admin,setStage=()=>{}){
  setStage("decode_password_hash");
  const expected=fromBase64(admin.password_hash);
  const iterations=Number(admin.iterations);
- if(!Number.isInteger(iterations)||iterations<100000||iterations>1000000||expected.length===0)return false;
+ if(!Number.isInteger(iterations)||iterations<100000||iterations>100000||expected.length===0)return false;
  setStage("import_password_key");
- let key=await crypto.subtle.importKey("raw",enc(password),"PBKDF2",false,["deriveBits"]);
- let remaining=iterations,round=0,actual;
- while(remaining>0){
-  const count=Math.min(100000,remaining);
-  const roundSalt=new Uint8Array(salt.length+1);
-  roundSalt.set(salt);roundSalt[salt.length]=++round;
-  setStage("derive_password_hash_round_"+round);
-  const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt:roundSalt,iterations:count,hash:"SHA-256"},key,expected.length*8);
-  actual=new Uint8Array(bits);
-  remaining-=count;
-  if(remaining>0)key=await crypto.subtle.importKey("raw",actual,"PBKDF2",false,["deriveBits"]);
- }
+ const key=await crypto.subtle.importKey("raw",enc(password),"PBKDF2",false,["deriveBits"]);
+ setStage("derive_password_hash");
+ const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations,hash:"SHA-256"},key,expected.length*8);
  setStage("compare_password_hash");
+ const actual=new Uint8Array(bits);
  if(actual.length!==expected.length)return false;
  let diff=0;for(let i=0;i<actual.length;i++)diff|=actual[i]^expected[i];
  return diff===0;
